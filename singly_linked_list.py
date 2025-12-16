@@ -231,13 +231,66 @@ class LinkedList:
                 prev = cur
             cur = prev.next
 
+    def print_nth_from_last(self, n):
+        # # Method 1
+        # total_len = self.len_iterative()
+
+        # cur = self.head
+        # while cur:
+        #     if total_len == n:
+        #         return cur.data
+        #     total_len -= 1
+        #     cur = cur.next
+        
+        # if cur is None:
+        #     return
+
+        # Method 2
+        p = self.head
+        q = self.head
+
+        count = 0
+        while q and count < n:
+            q = q.next
+            count += 1
+
+        if not q:
+            print(str(n) + "greater than the number of nodes in list")
+
+        while p and q:
+            p = p.next
+            q = q.next
+        return p.data
+    
+    """
+    1 -> 2 -> 1 -> 3 -> 1 -> 4 -> 1
+    Number of ones - 4
+    """
+    def count_occurences_iterative(self, data):
+        
+        cur = self.head
+        count = 0
+        while cur:
+            if cur.data == data:
+                count += 1
+            cur = cur.next
+        return count
+
+    def count_occurences_recursive(self, node, data):
+        if not node:
+            return 0
+        if node.data == data:
+            return 1 + self.count_occurences_recursive(node.next, data)
+        else:
+            return self.count_occurences_recursive(node.next, data)
+
 llist_1 = LinkedList()
 llist_1.append("1")
-llist_1.append("5")
-llist_1.append("7")
-llist_1.append("9")
-llist_1.append("10")
-llist_1.append("5")
+llist_1.append("2")
+llist_1.append("1")
+llist_1.append("3")
+llist_1.append("1")
+llist_1.append("4")
 
 llist_2 = LinkedList()
 llist_2.append("2")
@@ -246,7 +299,7 @@ llist_2.append("4")
 llist_2.append("6")
 llist_2.append("8")
 
-llist_1.remove_duplicates()
+# llist_1.remove_duplicates()
 
 # llist.prepend("X")
 
@@ -258,7 +311,8 @@ llist_1.remove_duplicates()
 
 # llist.delete_node("B")
 # print("-----------")
-llist_1.print_list()
+print(llist_1.count_occurences_iterative("1"))
+print(llist_1.count_occurences_recursive(llist_1.head, "1"))
 
 # print(llist.len_recursive(llist.head.next))
 
