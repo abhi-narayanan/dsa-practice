@@ -283,14 +283,38 @@ class LinkedList:
             return 1 + self.count_occurences_recursive(node.next, data)
         else:
             return self.count_occurences_recursive(node.next, data)
+        
+    def rotate(self, k):
+        
+        p = self.head
+        q = self.head
+
+        prev = None
+        count = 0 
+
+        while p and count < k:
+            prev = p
+            p = p.next
+            q = q.next
+            count += 1
+        p = prev
+
+        while q:
+            prev = q
+            q = q.next
+        q = prev
+
+        q.next = self.head
+        self.head = p.next
+        p.next = None
 
 llist_1 = LinkedList()
-llist_1.append("1")
-llist_1.append("2")
-llist_1.append("1")
-llist_1.append("3")
-llist_1.append("1")
-llist_1.append("4")
+llist_1.append(1)
+llist_1.append(2)
+llist_1.append(3)
+llist_1.append(4)
+llist_1.append(5)
+llist_1.append(6)
 
 llist_2 = LinkedList()
 llist_2.append("2")
@@ -298,6 +322,8 @@ llist_2.append("3")
 llist_2.append("4")
 llist_2.append("6")
 llist_2.append("8")
+
+llist_1.rotate(4)
 
 # llist_1.remove_duplicates()
 
@@ -311,10 +337,12 @@ llist_2.append("8")
 
 # llist.delete_node("B")
 # print("-----------")
-print(llist_1.count_occurences_iterative("1"))
-print(llist_1.count_occurences_recursive(llist_1.head, "1"))
+# print(llist_1.count_occurences_iterative("1"))
+# print(llist_1.count_occurences_recursive(llist_1.head, "1"))
 
 # print(llist.len_recursive(llist.head.next))
+
+llist_1.print_list()
 
 """
 Given a key (data field) delete node with this field. Assume elements in linked list are unique. Example: Delete node with data field "B".
