@@ -57,12 +57,92 @@ class CircularLinkedList:
                     prev.next = cur.next
                     cur = cur.next
 
+    def __len__(self):
+        cur = self.head
+        count = 0
+        while cur:
+            count += 1
+            cur = cur.next
+            if cur == self.head:
+                break
+        return count
+
+    def split_list(self):
+        """
+        A -> B -> C -> D -> ...
+        A -> B -> ... and C -> D -> ...
+        """
+        size = len(self)
+
+        if size == 0:
+            return None
+        if size == 1:
+            return self.head
+        
+        mid = size // 2
+        count = 0
+
+        prev = None
+        cur = self.head
+
+        while cur and count < mid:
+            count += 1
+            prev = cur
+            cur = cur.next
+        prev.next = self.head
+
+        split_cllist = CircularLinkedList()
+        while cur.next != self.head:
+            split_cllist.append(cur.data)
+            cur = cur.next
+        split_cllist.append(cur.data)
+
+        self.print_list()
+        print("\n")
+        split_cllist.print_list()
+
+    def remove_node(self, node):
+        if self.head == node:
+            cur = self.head
+            while cur.next != self.head:
+                cur = cur.next
+            cur.next = self.head.next
+            self.head = self.head.next
+        else:
+            cur = self.head
+            prev = None
+            while cur.next != self.head:
+                prev = cur
+                cur = cur.next
+                if cur == node:
+                    prev.next = cur.next
+                    cur = cur.next
+
+    def josephus_circle(self, step):
+        """
+        Iterate through the list and keep removing items from list based on the step size
+        """
+        cur = self.head
+
+        while len(self) > 1:
+            count = 1
+            while count != step:
+                cur = cur.next
+                count += 1
+            self.remove_node(cur)
+            cur = cur.next
 
 cllist = CircularLinkedList()
-cllist.prepend("A")
-cllist.prepend("B")
+cllist.append("A")
+cllist.append("B")
 cllist.append("C")
 cllist.append("D")
+cllist.append("E")
 
-cllist.remove("E")
+# cllist.remove("E")
+# cllist.split_list()
+
+# print(len(cllist))
+
+cllist.josephus_circle(2)
 cllist.print_list()
