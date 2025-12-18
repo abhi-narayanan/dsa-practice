@@ -438,7 +438,7 @@ llist_2.append(2)
 
 # llist_1.move_tail_to_head()
 
-llist_1.sum_two_lists(llist_2)
+# llist_1.sum_two_lists(llist_2)
 
 # llist_1.print_list()
 
