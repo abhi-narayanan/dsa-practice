@@ -1,4 +1,6 @@
 from hmac import new
+from os import curdir
+import re
 
 
 class Node:
@@ -75,6 +77,43 @@ class DoublyLinkedList:
                 return
             cur = cur.next
 
+    def delete(self, key):
+        cur = self.head
+        while cur:
+            if cur.data == key and cur == self.head:
+                # Case 1
+                if not cur.next:
+                    cur = None
+                    self.head = None
+                    return
+                # Case 2
+                else:
+                    nxt = cur.next
+                    cur.next = None
+                    nxt.prev = None
+                    cur = None
+                    self.head = nxt
+                    return
+            elif cur.data == key:
+                # Case 3
+                if cur.next:
+                    nxt = cur.next
+                    prev = cur.prev
+                    prev.next = nxt
+                    nxt.prev = prev
+                    cur.next = None
+                    cur.prev = None
+                    cur = None
+                    return
+                # Case 4
+                else:
+                    prev = cur.prev
+                    prev.next = None
+                    cur.prev = None
+                    cur = None
+                    return
+            cur = cur.next
+
 dllist = DoublyLinkedList()
 dllist.append(1)
 dllist.append(2)
@@ -83,5 +122,7 @@ dllist.append(4)
 
 # dllist.add_after_node(1, 11)
 # dllist.add_before_node(1, 12)
+
+dllist.delete(2)
 
 dllist.print_list()
