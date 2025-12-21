@@ -1,8 +1,3 @@
-from hmac import new
-from os import curdir
-import re
-
-
 class Node:
     def __init__(self, data):
         self.data = data
@@ -114,6 +109,79 @@ class DoublyLinkedList:
                     return
             cur = cur.next
 
+    def delete_node(self, node):
+        cur = self.head
+        while cur:
+            if cur == node and cur == self.head:
+                # Case 1
+                if not cur.next:
+                    cur = None
+                    self.head = None
+                    return
+                # Case 2
+                else:
+                    nxt = cur.next
+                    cur.next = None
+                    nxt.prev = None
+                    cur = None
+                    self.head = nxt
+                    return
+            elif cur == node:
+                # Case 3
+                if cur.next:
+                    nxt = cur.next
+                    prev = cur.prev
+                    prev.next = nxt
+                    nxt.prev = prev
+                    cur.next = None
+                    cur.prev = None
+                    cur = None
+                    return
+                # Case 4
+                else:
+                    prev = cur.prev
+                    prev.next = None
+                    cur.prev = None
+                    cur = None
+                    return
+            cur = cur.next
+
+    def reverse(self):
+        tmp = None
+        cur = self.head
+        while cur:
+            tmp = cur.prev
+            cur.prev = cur.next
+            cur.next = tmp
+            cur = cur.prev
+        if tmp:
+            self.head = tmp.prev
+
+    def remove_duplicates(self):
+        cur = self.head
+        seen = dict()
+        while cur:
+            if cur.data not in seen:
+                seen[cur.data] = 1
+                cur = cur.next
+            else:
+                nxt = cur.next
+                self.delete_node(cur)
+                cur = nxt
+
+    def pairs_with_sum(self, sum):
+        pairs = list()
+        p = self.head
+        q = None
+        while p:
+            q = p.next
+            while q:
+                if p.data + q.data == sum:
+                    pairs.append((p.data, q.data))
+                q = q.next
+            p = p.next
+        return pairs
+
 dllist = DoublyLinkedList()
 dllist.append(1)
 dllist.append(2)
@@ -123,6 +191,11 @@ dllist.append(4)
 # dllist.add_after_node(1, 11)
 # dllist.add_before_node(1, 12)
 
-dllist.delete(2)
+# dllist.delete(2)
 
-dllist.print_list()
+# dllist.reverse()
+# dllist.remove_duplicates()
+
+print(dllist.pairs_with_sum(0))
+
+# dllist.print_list()
