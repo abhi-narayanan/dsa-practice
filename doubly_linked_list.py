@@ -1,3 +1,6 @@
+from hmac import new
+
+
 class Node:
     def __init__(self, data):
         self.data = data
@@ -40,11 +43,45 @@ class DoublyLinkedList:
             print(cur.data)
             cur = cur.next
 
+    def add_after_node(self, key, data):
+        cur = self.head
+        while cur:
+            if cur.next is None and cur.data == key:
+                self.append(data)
+                return
+            elif cur.data == key:
+                new_node = Node(data)
+                nxt = cur.next
+                cur.next = new_node
+                new_node.next = nxt
+                new_node.prev = cur
+                nxt.prev = new_node
+                return
+            cur = cur.next
+        
+    def add_before_node(self, key, data):
+        cur = self.head
+        while cur:
+            if cur.prev is None and cur.data == key:
+                self.prepend(data)
+                return
+            elif cur.data == key:
+                new_node = Node(data)
+                prev = cur.prev
+                prev.next = new_node
+                new_node.next = cur
+                new_node.prev = prev
+                cur.prev = new_node
+                return
+            cur = cur.next
+
 dllist = DoublyLinkedList()
-dllist.prepend(0)
-dllist.append("B")
-dllist.append("C")
-dllist.append("D")
-dllist.prepend("A")
+dllist.append(1)
+dllist.append(2)
+dllist.append(3)
+dllist.append(4)
+
+# dllist.add_after_node(1, 11)
+# dllist.add_before_node(1, 12)
 
 dllist.print_list()
