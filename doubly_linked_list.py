@@ -40,11 +40,25 @@ class DoublyLinkedList:
             print(cur.data)
             cur = cur.next
 
-dllist = DoublyLinkedList()
-dllist.prepend(0)
-dllist.append("B")
-dllist.append("C")
-dllist.append("D")
-dllist.prepend("A")
+    def pairs_with_sum(self, sum_val):
+        pairs = list()
+        p = self.head
+        q = None
+        while p:
+            q = p.next
+            while q:
+                if p.data + q.data == sum_val:
+                    pairs.append("(" + str(p.data) + "," + str(q.data) + ")")
+                q = q.next
+            p = p.next
+        return pairs
 
+dllist = DoublyLinkedList()
+dllist.prepend(1)
+dllist.append(2)
+dllist.append(3)
+dllist.append(4)
+dllist.prepend(5)
+
+print(dllist.pairs_with_sum(0))
 dllist.print_list()
